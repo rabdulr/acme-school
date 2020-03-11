@@ -89,7 +89,6 @@ const App = () => {
                     </select>
                     <button disable={`${ studentName }`}>Create</button>
                 </form>
-                <hr />
             </div>
 
             <div id='create-school'>
@@ -104,7 +103,7 @@ const App = () => {
                     {
                         schools.map(school => {
                             return(
-                                <div>
+                                <div className='school'>
                                     <h3 key={school.id}>{school.name}</h3>
                                     <ul>
                                         {
