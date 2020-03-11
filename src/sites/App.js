@@ -123,17 +123,18 @@ const App = () => {
 
             <div id='unenrolled'>
                 <h3>Unenrolled</h3>
-                {
-                    students.filter( student => student.schoolId === null).map( student => {
-                        return(
-                            <div>
-                                <ul>
-                                    {student.name}
-                                </ul>
-                            </div>
-                        )
-                    })
-                }
+                <ul>
+                    {
+                        students.filter( student => student.schoolId === null).map( student => {
+                            return(
+                                <div>
+                                    <li key={student.id}>{student.name}</li>
+                                </div>
+                            )
+                        })
+                    }
+
+                </ul>
             </div>
         </main>
     )
