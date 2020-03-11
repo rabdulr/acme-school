@@ -41,9 +41,19 @@ const App = () => {
     };
 
     const createStudent = async(ev) => {
+
         ev.preventDefault();
+        const studentPackage = {}
+
+        if(!schoolId) {
+            studentPackage.studentName = studentName;
+        } else {
+            studentPackage.studentName = studentName;
+            studentPackage.schoolId = schoolId;
+        };
+
         try {
-            const newStudent = (await axios.post('/api/students', {studentName,  schoolId})).data;
+            const newStudent = (await axios.post('/api/students', studentPackage)).data;
             setStudents([...students, newStudent]);
             setStudentName('');
             setSchoolId('');
@@ -88,6 +98,42 @@ const App = () => {
                     <input type='text' value={ schoolName } onChange={ev => setSchoolName(ev.target.value)} />
                     <button disable={`${!schoolName}`}>Create</button>
                 </form>
+            </div>
+
+            <div id='schools'>
+                    {
+                        schools.map(school => {
+                            return(
+                                <div>
+                                    <h3 key={school.id}>{school.name}</h3>
+                                    <ul>
+                                        {
+                                            students.filter(student => student.schoolId === school.id).map( student => {
+                                                return(
+                                                    <li key={student.id}>{student.name}</li>
+                                                )
+                                            })
+                                        }
+                                    </ul>
+                                </div>
+                            )
+                        })
+                    }
+            </div>
+
+            <div id='unenrolled'>
+                <h3>Unenrolled</h3>
+                {
+                    students.filter( student => student.schoolId === null).map( student => {
+                        return(
+                            <div>
+                                <ul>
+                                    {student.name}
+                                </ul>
+                            </div>
+                        )
+                    })
+                }
             </div>
         </main>
     )
