@@ -10,6 +10,7 @@ const App = () => {
     const [ students, setStudents ] = useState([]);
     const [ studentName, setStudentName ] = useState('');
     const [ studentId, setStudentId ] = useState('');
+    const [ params, setParams ] = useState(qs.parse(window.location.hash.slice(1)))''
 
     const GETDATA = () => {
         Promise.all([
@@ -26,6 +27,12 @@ const App = () => {
 
     useEffect(() => {
         GETDATA();
+    }, []);
+
+    useEffect(()=> {
+        window.addEventListener('hashchange', ()=> {
+            setParams(qs.parse(window.location.hash.slice(1)));
+        });
     }, []);
 
     useEffect(() => {
