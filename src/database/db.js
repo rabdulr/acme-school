@@ -17,7 +17,7 @@ const sync = async() => {
 
     CREATE TABLE students(
         id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-        "schoolId" UUID REFERENCES schools(id),
+        "schoolId" UUID REFERENCES schools(id) ON DELETE CASCADE,
         name VARCHAR(100) NOT NULL,
         CHECK (CHAR_LENGTH(name) > 0)
     );
@@ -53,6 +53,14 @@ const createSchool = async({ schoolName }) => {
 
 const createStudent = async({ studentName, schoolId }) => {
     return (await client.query('INSERT INTO students(name, "schoolId") VALUES($1, $2) RETURNING *', [ studentName, schoolId ])).rows[0];
+};
+
+const destroySchool = async({ id }) => {
+    await client.query('DELETE FROM schools WHERE id=$1', [id])
+};
+
+const destroyStudent = async({ id }) => {
+    await client.query('DELETE FROM students WHERE id=$1', [id])
 };
 
 

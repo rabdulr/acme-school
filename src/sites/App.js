@@ -9,6 +9,7 @@ const App = () => {
     const [ schoolId, setSchoolId ] = useState('');
     const [ students, setStudents ] = useState([]);
     const [ studentName, setStudentName ] = useState('');
+    const [ studentId, setStudentId ] = useState('');
 
     const GETDATA = () => {
         Promise.all([
@@ -26,6 +27,15 @@ const App = () => {
     useEffect(() => {
         GETDATA();
     }, []);
+
+    useEffect(() => {
+        if(!studentId) {
+            return
+        } else {
+            console.log(studentId);
+            setStudentId('')
+        }
+    }, [studentId])
 
     const createSchool = async(ev) => {
         ev.preventDefault();
@@ -62,7 +72,7 @@ const App = () => {
         catch(ex) {
             setError(ex.response.data.message);
         }
-    }
+    };
 
     return(
         <main>
@@ -70,11 +80,12 @@ const App = () => {
                 <h1>Acme School</h1>
                 <h4>{schools.length} Schools</h4>
                 <h4>{students.length} Students ({students.filter(student => student.schoolId !== null).length} enrolled)</h4>
+                <h4>Error: { error }</h4>
                 <hr />
             </div>
 
             <div id='create-student'>
-                <label>Create Student</label>
+                <h3>Create Student</h3>
                 <form onSubmit={ createStudent }>
                     <input type='text' value={ studentName } onChange={ev => setStudentName(ev.target.value)} />
                     <select onChange={ev => setSchoolId(ev.target.value)} value={ schoolId }>
@@ -87,15 +98,15 @@ const App = () => {
                                 })
                             }
                     </select>
-                    <button disable={`${ studentName }`}>Create</button>
+                    <button disabled={ !studentName }>Create</button>
                 </form>
             </div>
 
             <div id='create-school'>
-                <label>Create School</label>
+                <h3>Create School</h3>
                 <form onSubmit={ createSchool }>
                     <input type='text' value={ schoolName } onChange={ev => setSchoolName(ev.target.value)} />
-                    <button disable={`${!schoolName}`}>Create</button>
+                    <button disabled={!schoolName}>Create</button>
                 </form>
             </div>
 
@@ -103,17 +114,31 @@ const App = () => {
                     {
                         schools.map(school => {
                             return(
-                                <div className='school'>
-                                    <h3 key={school.id}>{school.name}</h3>
+                                <div className='school' key={ school.id }>
+                                    <h3>{school.name}</h3>
+                                    <select onChange={ev => setStudentId(ev.target.value)} value={ studentId }>
+                                        <option value=''>-- enroll student --</option>
+                                        {
+                                            students.map(student => {
+                                                return(
+                                                    <option value={ student.id } key={ student.id }>{ student.name }</option>
+                                                )
+                                            })
+                                        }
+                                    </select>
                                     <ul>
                                         {
                                             students.filter(student => student.schoolId === school.id).map( student => {
                                                 return(
-                                                    <li key={student.id}>{student.name}</li>
+                                                    <li key={student.id}>
+                                                        {student.name}
+                                                        <button>Unenroll</button>
+                                                    </li>
                                                 )
                                             })
                                         }
                                     </ul>
+                                    <button>Delete</button>
                                 </div>
                             )
                         })
@@ -126,9 +151,10 @@ const App = () => {
                     {
                         students.filter( student => student.schoolId === null).map( student => {
                             return(
-                                <div>
-                                    <li key={student.id}>{student.name}</li>
-                                </div>
+                                    <li key={student.id}>
+                                        {student.name}
+                                        <button>X</button>
+                                    </li>
                             )
                         })
                     }
@@ -139,4 +165,4 @@ const App = () => {
     )
 };
 
-export default App
+export default App;
