@@ -10,7 +10,7 @@ const App = () => {
     const [ students, setStudents ] = useState([]);
     const [ studentName, setStudentName ] = useState('');
     const [ studentId, setStudentId ] = useState('');
-    const [ params, setParams ] = useState(qs.parse(window.location.hash.slice(1)))''
+    const [ params, setParams ] = useState(qs.parse(window.location.hash.slice(1)));
 
     const GETDATA = () => {
         Promise.all([
