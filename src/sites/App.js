@@ -42,10 +42,9 @@ const App = () => {
             console.log(studentId);
             setStudentId('')
         }
-    }, [studentId])
+    }, [studentId]);
 
-    const createSchool = async(ev) => {
-        ev.preventDefault();
+    const createSchool = async() => {
         try {
             const newSchool = (await axios.post('/api/schools', { schoolName })).data;
             setSchools([...schools, newSchool]);
@@ -91,33 +90,53 @@ const App = () => {
                 <hr />
             </div>
 
-            <div id='create-student'>
-                <h3>Create Student</h3>
-                <form onSubmit={ createStudent }>
-                    <input type='text' value={ studentName } onChange={ev => setStudentName(ev.target.value)} />
-                    <select onChange={ev => setSchoolId(ev.target.value)} value={ schoolId }>
-                        <option value=''>-- select school --</option>
-                            {
-                                schools.map(school => {
-                                    return(
-                                        <option value={ school.id } key={ school.id }>{ school.name }</option>
-                                    )
-                                })
-                            }
-                    </select>
-                    <button disabled={ !studentName }>Create</button>
-                </form>
+            <div id='create'>
+                <div id='create-student'>
+                    <h3>Create Student</h3>
+                    <form onSubmit={ createStudent }>
+                        <input type='text' value={ studentName } onChange={ev => setStudentName(ev.target.value)} />
+                        <select onChange={ev => setSchoolId(ev.target.value)} value={ schoolId }>
+                            <option value=''>-- select school --</option>
+                                {
+                                    schools.map(school => {
+                                        return(
+                                            <option value={ school.id } key={ school.id }>{ school.name }</option>
+                                        )
+                                    })
+                                }
+                        </select>
+                        <button disabled={ !studentName }>Create</button>
+                    </form>
+                </div>
+
+                <div id='create-school'>
+                    <h3>Create School</h3>
+                    <form onSubmit={ createSchool}>
+                        <input type='text' value={ schoolName } onChange={ev => setSchoolName(ev.target.value)} />
+                        <button disabled={!schoolName}>Create</button>
+                    </form>
+                </div>
             </div>
 
-            <div id='create-school'>
-                <h3>Create School</h3>
-                <form onSubmit={ createSchool }>
-                    <input type='text' value={ schoolName } onChange={ev => setSchoolName(ev.target.value)} />
-                    <button disabled={!schoolName}>Create</button>
-                </form>
-            </div>
 
-            <div id='schools'>
+
+            <div id='list'>
+                <div id='unenrolled'>
+                    <h3>Unenrolled</h3>
+                    <ul>
+                        {
+                            students.filter( student => student.schoolId === null).map( student => {
+                                return(
+                                        <li key={student.id}>
+                                            {student.name}
+                                            <button>X</button>
+                                        </li>
+                                )
+                            })
+                        }
+
+                    </ul>
+                </div>
                     {
                         schools.map(school => {
                             return(
@@ -150,23 +169,6 @@ const App = () => {
                             )
                         })
                     }
-            </div>
-
-            <div id='unenrolled'>
-                <h3>Unenrolled</h3>
-                <ul>
-                    {
-                        students.filter( student => student.schoolId === null).map( student => {
-                            return(
-                                    <li key={student.id}>
-                                        {student.name}
-                                        <button>X</button>
-                                    </li>
-                            )
-                        })
-                    }
-
-                </ul>
             </div>
         </main>
     )

@@ -70,5 +70,7 @@ module.exports = {
     createSchool,
     createStudent,
     readSchools,
-    readStudents
+    readStudents,
+    destroySchool,
+    destroyStudent
 }

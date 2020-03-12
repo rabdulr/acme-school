@@ -2,7 +2,51 @@ body {
     margin: 2rem;
 }
 
-#create-school, .school, #unenrolled, #create-student {
+.school > * {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+#unenrolled {
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+}
+
+#create > *, .school, #unenrolled {
     border: 1px solid black;
     padding: .5rem;
+    margin: 1rem;
+    width: 25%;
 }
+
+
+#create {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    justify-content: space-evenly;
+    margin: 1rem;
+};
+
+.school {
+    padding: 1rem;
+}
+
+#list {
+    padding: 1rem;
+    display: flex;
+    text-align: center;
+};
+
+#list > div {
+    display: flex;
+    flex-direction: column;
+}
+

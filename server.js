@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const db = require('./src/database/db');
+const db = require('./database/db');
 
 app.use(express.json());
 
