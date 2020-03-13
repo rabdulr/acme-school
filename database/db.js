@@ -64,8 +64,13 @@ const destroyStudent = async(id) => {
 };
 
 const updateSchool = async({ schoolName, id}) => {
-    const SQL= 'UPDATE schools SET name=$1 WHERE id=$2 RETURNING *';
+    const SQL = 'UPDATE schools SET name=$1 WHERE id=$2 RETURNING *';
     return ( await client.query(SQL, [schoolName, id])).rows[0];
+};
+
+const updateStudent = async({ studentName, id}) => {
+    const SQL = 'UPDATE students SET name=$1 WHERE id=$2 RETURNING *';
+    return ( await client.query(SQL, [studentName, id])).rows[0];
 }
 
 
@@ -77,5 +82,6 @@ module.exports = {
     readStudents,
     destroySchool,
     destroyStudent,
-    updateSchool
+    updateSchool,
+    updateStudent
 }

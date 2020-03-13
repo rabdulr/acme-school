@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 const UpdateSchool = ({ id, school, setError, updateSchool, destroySchool, setSchoolName, schoolName }) => {
 
     useEffect(()=> {
-        if(school){
+        if(id){
             setSchoolName(school.name)
         } else {
             setError('School does not exist');
             window.location.href='#';
         }
-    }, [school])
+    }, [id])
 
     return(
             <div className='school-update'>
                 <input placeholder='School Name' value={ schoolName } onChange={ev => setSchoolName(ev.target.value)}/>
-                <button onClick={ ()=> updateSchool(id) }>Update</button>
+                <button onClick={ updateSchool }>Update</button>
                 <button onClick={ ()=> destroySchool(school) }>Delete School</button>
             </div>
 

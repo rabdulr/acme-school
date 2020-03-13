@@ -52,6 +52,12 @@ app.put('/api/schools/:id', (req, res, next)=> {
     db.updateSchool(req.body)
         .then( school => res.send(school))
         .catch(next)
+});
+
+app.put('/api/students/:id', (req, res, next)=> {
+    db.updateStudent(req.body)
+        .then( student => res.send(student))
+        .catch(next)
 })
 
 app.use((err, req, res, next)=> {

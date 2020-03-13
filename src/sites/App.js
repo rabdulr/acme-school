@@ -98,15 +98,15 @@ const App = () => {
     const destroyStudent = async(studentToDestroy) => {
         try {
             await axios.delete(`/api/students/${studentToDestroy.id}`);
-            setStudents(students.filter( student => student.id !== studentToDestroy.id))
             setError('');
+            setStudents(students.filter( student => student.id !== studentToDestroy.id))
             window.location.has='#';
         }
         catch(ex) {
             setError(ex.response.data.message)
         }
     }
-    const updateSchool = async(id) => {
+    const updateSchool = async() => {
         try {
             const updatedSchool = (await axios.put(`/api/schools/${id}`, { schoolName, id })).data;
             const updatedSchools = schools.map(school => {
@@ -114,7 +114,7 @@ const App = () => {
                     school.name = updatedSchool.name;
                 }
             })
-            setSchoolName([...updatedSchools]);
+            setSchools([...updatedSchools]);
             setSchoolName('');
             setError('');
             window.location.hash='#'
@@ -123,6 +123,21 @@ const App = () => {
             setError(ex.response.data.message)
         }
     };
+
+    const updateStudent = async() => {
+        try {
+            const updatedStudent = (await axios.put(`/api/students/${id}`, { studentName, id })).data;
+            const updatedStudents = students.map( student => {
+                if(student.id === updatedStudent.id){
+                    student.name = updatedStudent.name;
+                }
+            });
+            setStuden
+        }
+        catch(ex) {
+            setError(ex.response.data.message)
+        }
+    }
 
     return(
         <main>
@@ -145,11 +160,11 @@ const App = () => {
             }
                 {
                     view === 'school' && 
-                    <UpdateSchool id={ id } school={ schools.find( school => school.id === id)} setError={ setError } updateSchool={ updateSchool } destroySchool={ destroySchool } setSchoolName={ setSchoolName } schoolName={ schoolName} />
+                    <UpdateSchool id={ id } school={ schools.filter( school => school.id === id)} setError={ setError } updateSchool={ updateSchool } destroySchool={ destroySchool } setSchoolName={ setSchoolName } schoolName={ schoolName} />
                 }
                 {
                     view === 'student' &&
-                    <UpdateStudent setSchoolId={ setSchoolId } schoolId={ schoolId } schools={ schools } id={ id } student={ students.find( student => student.id === id)} destroyStudent={ destroyStudent } setStudentName={ setStudentName } studentName={ studentName } setError={ setError }/>
+                    <UpdateStudent setSchoolId={ setSchoolId } schoolId={ schoolId } schools={ schools } id={ id } student={ students.filter( student => student.id === id)} destroyStudent={ destroyStudent } setStudentName={ setStudentName } studentName={ studentName } setError={ setError } updateStudent={ updateStudent }/>
                 }
         </main>
     )
