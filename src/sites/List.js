@@ -30,7 +30,7 @@ const List = ({students, schools, setStudentId, studentId, setDropDown}) => {
                                 <select onChange={ (ev)=> setDropDown(ev) } value={ studentId }>
                                     <option value=''>-- enroll student --</option>
                                     {
-                                        students.map(student => {
+                                        students.filter( student => student.schoolId !== school.id ).map(student => {
                                             return(
                                                 <option value={ student.id } key={ student.id }>{ student.name }</option>
                                             )
