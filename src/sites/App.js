@@ -42,9 +42,10 @@ const App = () => {
 
     useEffect(() => {
         if(!studentId) {
-            return
+            setSchoolId('');
+            setStudentName('');
         } else {
-            setStudentId('')
+            updateStudent(studentId);
         }
     }, [studentId]);
 
@@ -124,18 +125,34 @@ const App = () => {
         }
     };
 
-    const updateStudent = async() => {
-        // try {
-        //     const updatedStudent = (await axios.put(`/api/students/${id}`, { studentName, id })).data;
-        //     const updatedStudents = students.map( student => {
-        //         if(student.id === updatedStudent.id){
-        //             student.name = updatedStudent.name;
-        //         }
-        //     });
-        // }
-        // catch(ex) {
-        //     setError(ex.response.data.message)
-        // }
+    const updateStudent = async(id) => {
+
+        try {
+            const updatedStudent = (await axios.put(`/api/students/${id}`, { studentName, id, schoolId })).data;
+            students.map( student => {
+                if(student.id === updatedStudent.id){
+                    student.name = updatedStudent.name;
+                     student.schoolId = updatedStudent.schoolId
+                }
+            });
+            setStudents([...students]);
+            setStudentName('');
+            setSchoolId('');
+            setStudentId('');
+            setError('');
+        }
+        catch(ex) {
+            setError(ex.response.data.message)
+        }
+    };
+
+    const setDropDown = async(ev) => {
+        Promise.all([
+            setStudentId(ev.target.value),
+            setStudentName( students.find(student => student.id === ev.target.value).name),
+            setSchoolId(ev.target.parentNode.getAttribute('value'))
+        ])
+        // await updateStudent(id);
     }
 
     return(
@@ -153,7 +170,7 @@ const App = () => {
                 !view && (
                     <div>
                         <Create createStudent={ createStudent } studentName= { studentName } setStudentName={ setStudentName } setSchoolId={ setSchoolId } schools={ schools } createSchool={ createSchool } schoolName={ schoolName } setSchoolName={ setSchoolName } schoolId={ schoolId }/>
-                        <List students={ students } schools={ schools } setStudentId={ setStudentId} studentId={ studentId }/>
+                        <List students={ students } schools={ schools } setStudentId={ setStudentId} studentId={ studentId } setDropDown={ setDropDown }/>
                     </div>
                 )
             }
@@ -163,7 +180,7 @@ const App = () => {
                 }
                 {
                     view === 'student' &&
-                    <UpdateStudent setSchoolId={ setSchoolId } schoolId={ schoolId } schools={ schools } id={ id } student={ students.find( student => student.id === id)} destroyStudent={ destroyStudent } setStudentName={ setStudentName } studentName={ studentName } setError={ setError } updateStudent={ updateStudent } />
+                    <UpdateStudent setSchoolId={ setSchoolId } schoolId={ studentId } schools={ schools } id={ id } student={ students.find( student => student.id === id)} destroyStudent={ destroyStudent } setStudentName={ setStudentName } studentName={ studentName } setError={ setError } updateStudent={ updateStudent } />
                 }
         </main>
     )

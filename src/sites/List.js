@@ -1,6 +1,6 @@
 import React from 'react';
 
-const List = ({students, schools, setStudentId, studentId}) => {
+const List = ({students, schools, setStudentId, studentId, setDropDown}) => {
     return(
         <div id='list'>
             <div id='unenrolled'>
@@ -23,11 +23,11 @@ const List = ({students, schools, setStudentId, studentId}) => {
                 {
                     schools.map(school => {
                         return(
-                            <div className='school' key={ school.id }>
+                            <div className='school' key={ school.id } value={ school.id }>
                                 <a href={`#view=school&id=${school.id}`}>
                                     <h3>{school.name}</h3>
                                 </a>
-                                <select onChange={ev => setStudentId(ev.target.value)} value={ studentId }>
+                                <select onChange={ (ev)=> setDropDown(ev) } value={ studentId }>
                                     <option value=''>-- enroll student --</option>
                                     {
                                         students.map(student => {

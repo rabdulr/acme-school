@@ -3,18 +3,13 @@ import React, { useEffect } from 'react';
 const UpdateStudent = ({setSchoolId, schoolId, schools, id, destroyStudent, student, setStudentName, studentName, setError, updateStudent}) => {
 
     useEffect(()=> {
-        if(id){
-            setStudentName(student.name)
-        } else {
-            setError('Student does not exist');
-            window.location.href='#';
-        }
-    }, [id]);
+            setStudentName(student.name);
+    }, []);
 
     return(
         <div className='student-update'>
             <input placeholder='Student name' value={ studentName } onChange={ ev => setStudentName(ev.target.value)} />
-            <select onChange={ev => setSchoolId(ev.target.value)} value={ schoolId }>
+            <select onChange={ev => setSchoolId(ev.target.value)} value={ student.schoolId || ''}>
                 <option value=''>-- select school --</option>
                     {
                         schools.map(school => {
@@ -24,7 +19,7 @@ const UpdateStudent = ({setSchoolId, schoolId, schools, id, destroyStudent, stud
                         })
                     }
             </select>
-            <button onClick={ updateStudent }>Update</button>
+            <button onClick={ ()=> updateStudent(id) }>Update</button>
             <button onClick={()=> destroyStudent(student)}>Delete Student</button>
         </div>
     )
