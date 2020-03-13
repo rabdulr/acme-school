@@ -55,14 +55,18 @@ const createStudent = async({ studentName, schoolId }) => {
     return (await client.query('INSERT INTO students(name, "schoolId") VALUES($1, $2) RETURNING *', [ studentName, schoolId ])).rows[0];
 };
 
-const destroySchool = async({ id }) => {
+const destroySchool = async(id) => {
     await client.query('DELETE FROM schools WHERE id=$1', [id])
 };
 
-const destroyStudent = async({ id }) => {
+const destroyStudent = async(id) => {
     await client.query('DELETE FROM students WHERE id=$1', [id])
 };
 
+const updateSchool = async({ schoolName, id}) => {
+    const SQL= 'UPDATE schools SET name=$1 WHERE id=$2 RETURNING *';
+    return ( await client.query(SQL, [schoolName, id])).rows[0];
+}
 
 
 module.exports = {
@@ -72,5 +76,6 @@ module.exports = {
     readSchools,
     readStudents,
     destroySchool,
-    destroyStudent
+    destroyStudent,
+    updateSchool
 }
