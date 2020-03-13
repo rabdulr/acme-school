@@ -3,8 +3,13 @@ import React, { useEffect } from 'react';
 const UpdateSchool = ({ id, school, setError, updateSchool, destroySchool, setSchoolName, schoolName }) => {
 
     useEffect(()=> {
-            setSchoolName(school.name)
-    }, [])
+        if(school){
+            setSchoolName(school.name);
+        }
+        else {
+            setSchoolName('');
+        }
+    }, [school])
 
     return(
             <div className='school-update'>

@@ -101,7 +101,7 @@ const App = () => {
             await axios.delete(`/api/students/${studentToDestroy.id}`);
             setError('');
             setStudents(students.filter( student => student.id !== studentToDestroy.id))
-            window.location.has='#';
+            window.location.hash='#';
         }
         catch(ex) {
             setError(ex.response.data.message)
@@ -180,7 +180,7 @@ const App = () => {
                 }
                 {
                     view === 'student' &&
-                    <UpdateStudent setSchoolId={ setSchoolId } schoolId={ studentId } schools={ schools } id={ id } student={ students.find( student => student.id === id)} destroyStudent={ destroyStudent } setStudentName={ setStudentName } studentName={ studentName } setError={ setError } updateStudent={ updateStudent } />
+                    <UpdateStudent setSchoolId={ setSchoolId } schoolId={ schoolId } schools={ schools } id={ id } student={ students.find( student => student.id === id)} destroyStudent={ destroyStudent } setStudentName={ setStudentName } studentName={ studentName } setError={ setError } updateStudent={ updateStudent } />
                 }
         </main>
     )
