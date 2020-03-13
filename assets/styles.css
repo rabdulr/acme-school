@@ -17,9 +17,10 @@ form {
 
 ul {
     list-style-type: none;
+    padding-left: 0;
 }
 
-#create > *, .school, #unenrolled {
+#create > *, .school, #unenrolled, #update > * {
     border: 1px solid black;
     padding: .5rem;
     margin: 1rem;
