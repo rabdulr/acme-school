@@ -42,12 +42,27 @@ const App = () => {
 
     useEffect(()=> {
         if(view === 'school'){
-            setUpdateSchoolName(schools.find(school => school.id === id).name)
+            const nameLookUp = schools.find(school => school.id === id);
+            if(nameLookup){
+                setUpdateSchoolName(nameLookUp.name);
+            }
+            else {
+                window.location.hash='#'
+            }
         }
         else if(view === 'student'){
-            setUpdateStudentName(students.find(student => student.id === id).name)
-            setUpdateStudent(students.find(student => student.id === id));
-            setUpdateStudentSchool(schoolId);
+            const nameLookUp = students.find(student => student.id === id)
+            if(nameLookUp){
+                setUpdateStudentName(nameLookUp.name)
+                setUpdateStudent(nameLookUp);
+                setUpdateStudentSchool(schoolId);            
+            }
+            else {
+                window.location.hash='#'
+            }
+        }
+        else if(!id){
+            window.location.hash='#'
         }
     }, [id]);
 

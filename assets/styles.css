@@ -68,3 +68,13 @@ ul {
 #update {
     display: flex;
 }
+
+#update {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+}
+
+#update > * {
+    width: 100%;
+}
