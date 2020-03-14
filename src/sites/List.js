@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-
-const List = ({schools, students}) => {
-    const [ schools, setSchools ] = useState([]);
-    const [ students, setStudents ] = useState([]);
+const List = ({schools, students, moveStudentInit, unenrollStudent}) => {
 
     return(
         <div id='list'>
