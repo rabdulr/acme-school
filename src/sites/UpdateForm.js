@@ -1,46 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import qs from 'qs';
-import Create from './Create';
-import List from './List';
+import React, { useEffect } from 'react';
 
-const UpdateForm = () => {
-    const [ schools, setSchools ] = useState([]);
-    const [ schoolName, setSchoolName ] = useState('');
-    const [ schoolIdSelection, setSchoolIdSelection ] = useState('');
-    const [ students, setStudents ] = useState([]);
-    const [ studentName, setStudentName ] = useState('');
-    const [ updateSchoolName, setUpdateSchoolName ] = useState('');
-    const [ updateStudent, setUpdateStudent ] = useState({});
-    const [ updateStudentName, setUpdateStudentName ] = useState('');
-    const [ updateStudentSchool, setUpdateStudentSchool ] = useState('');
-    const [ error, setError ] = useState('');
-    const [ params, setParams ] = useState(qs.parse(window.location.hash.slice(1)));
-
-    const GETDATA = () => {
-        Promise.all([
-            axios.get('/api/schools'),
-            axios.get('/api/students')
-        ])
-        .then( responses => responses.map( response => response.data))
-        .then( results => {
-            setSchools(results[0]);
-            setStudents(results[1]);
-        })
-        .catch(ex => setError(ex.response.data.message))
-    };
-
-    useEffect(() => {
-        GETDATA();
-    }, []);
-
-    useEffect(()=> {
-        window.addEventListener('hashchange', ()=> {
-            setParams(qs.parse(window.location.hash.slice(1)));
-        });
-    }, []);
-
-    const { view, id, schoolId } = params;
+const UpdateForm = ({schools, students, updateSchool, setUpdateSchoolName, setUpdateStudent, updateStudentName, setUpdateSchoolName, updateStudentSchool, setUpdateStudentSchool, destroySchool, destroyStudent, view, id}) => {
 
     useEffect(()=> {
         if(view === 'school'){

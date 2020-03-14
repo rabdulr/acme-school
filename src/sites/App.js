@@ -3,6 +3,8 @@ import axios from 'axios';
 import qs from 'qs';
 import Create from './Create';
 import List from './List';
+import UpdateStudentForm from './UpdateStudentForm';
+import UpdateSchoolForm from './UpdateSchoolForm';
 
 const App = () => {
     const [ schools, setSchools ] = useState([]);
@@ -41,32 +43,6 @@ const App = () => {
     }, []);
 
     const { view, id, schoolId } = params;
-
-    useEffect(()=> {
-        if(view === 'school'){
-            const nameLookUp = schools.find(school => school.id === id);
-            if(nameLookUp){
-                setUpdateSchoolName(nameLookUp.name);
-            }
-            else {
-                window.location.hash='#'
-            }
-        }
-        else if(view === 'student'){
-            const nameLookUp = students.find(student => student.id === id)
-            if(nameLookUp){
-                setUpdateStudentName(nameLookUp.name)
-                setUpdateStudent(nameLookUp);
-                setUpdateStudentSchool(schoolId);            
-            }
-            else {
-                window.location.hash='#'
-            }
-        }
-        else if(!id){
-            window.location.hash='#'
-        }
-    }, [id]);
 
     const createSchool = async(ev) => {
         ev.preventDefault();
@@ -225,42 +201,53 @@ const App = () => {
             {
                 !view && 
                 <div>
-                    <Create schools={ schools } schoolName={ schoolName } setSchoolName={ setSchoolName } schoolIdSelection={ schoolIdSelection } setSchoolIdSelection={ setSchoolIdSelection } studentName={ studentName } setStudentName={ setStudentName } createStudent={ createStudent } createSchool={ createSchool }/>
-                    <List schools={ schools } students={ students } moveStudentInit={ moveStudentInit } unenrollStudent={ unenrollStudent } />
+                    <Create 
+                        schools={ schools } 
+                        schoolName={ schoolName } 
+                        setSchoolName={ setSchoolName } s
+                        choolIdSelection={ schoolIdSelection } 
+                        setSchoolIdSelection={ setSchoolIdSelection } 
+                        studentName={ studentName } 
+                        setStudentName={ setStudentName } 
+                        createStudent={ createStudent } 
+                        createSchool={ createSchool }
+                    />
+                    <List 
+                        schools={ schools } 
+                        students={ students } 
+                        moveStudentInit={ moveStudentInit } 
+                        unenrollStudent={ unenrollStudent } 
+                    />
                 </div>
             }
-            <div id='update'>
-                { view === 'school' && (
-                    <div id='school-update'>
-                        <form onSubmit={ updateSchool }>
-                            <input type='text' placeholder='School name' value={ updateSchoolName } onChange={ ev => setUpdateSchoolName(ev.target.value)}/>
-                            <button disabled={ !updateSchoolName }>Update School</button>
-                        </form>
-                        <button onClick={()=> destroySchool(id) }>Delete School</button>
-                    </div>)
-                }
-                { view === 'student' && (
-                    <div id='student-update'>
-                        <form onSubmit={ updateStudentInfo }>
-                            <input type='text' placeholder='Student name' value ={ updateStudentName } onChange={ ev => setUpdateStudentName(ev.target.value)} />
-                            <select value={ updateStudentSchool } onChange={ev => setUpdateStudentSchool(ev.target.value)}>
-                            <option value=''>-- select school --</option>
-                            {
-                                schools.map(school => {
-                                    return(
-                                        <option value={ school.id } key={ school.id }>
-                                            { school.name }
-                                        </option>
-                                    )
-                                })
-                            }
-                        </select>
-                            <button>Update Student</button>
-                        </form>
-                        <button onClick={()=> destroyStudent(id)}>Delete Student</button>
-                    </div>)
-                }
-            </div>
+            {
+                view === 'student' &&
+                <UpdateStudentForm 
+                    schools={ schools } 
+                    students={ students } 
+                    setUpdateStudent={ setUpdateStudent } 
+                    updateStudentName={ updateStudentName }
+                    setUpdateStudentName={ setUpdateStudentName } 
+                    updateStudentSchool={ updateStudentSchool } setUpdateStudentSchool={ setUpdateStudentSchool } 
+                    destroyStudent={ destroyStudent }
+                    updateStudentInfo={ updateStudentInfo }
+                    view={ view } 
+                    id={ id }
+                    schoolId={ schoolId }
+                />
+            }
+            {
+                view === 'school' &&
+                <UpdateSchoolForm
+                    schools={ schools }
+                    updateSchool={ updateSchool }
+                    updateSchoolName={ updateSchoolName }
+                    setUpdateSchoolName={ setUpdateSchoolName } 
+                    destroySchool={ destroySchool }
+                    id={ id }
+                    updateSchoolName={ updateSchoolName }
+                />
+            }
         </main>
     )
 };

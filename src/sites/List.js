@@ -1,6 +1,6 @@
 import React from 'react';
 
-const List = ({schools, students, moveStudentInit, unenrollStudent}) => {
+const List = ({ schools, students, moveStudentInit, unenrollStudent }) => {
 
     return(
         <div id='list'>
