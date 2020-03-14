@@ -41,13 +41,23 @@ ul {
     border: 1px solid black;
     padding: .5rem;
     margin: 1rem;
-    width: 35%;
+    width: 25%;
+}
+
+#create > * {
+    width: 50%;
 }
 
 #list {
     display: flex;
     flex: 1;
     justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+#list > div {
+    display: flex;
+    flex-direction: column;
 }
 
 #enrolled > * {

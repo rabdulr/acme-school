@@ -205,105 +205,112 @@ const App = () => {
                 error
             }
             <hr />
+            {
+                !view && (
+                    <div id='create'>
+                        <div id='create-student'>
+                            <h3>Create Student</h3>
+                            <form onSubmit={ createStudent }>
+                                <input type='text' placeholder='Student name' value={ studentName } onChange={ ev => setStudentName(ev.target.value) }/>
+                                <select value={ schoolIdSelection } onChange={ev => setSchoolIdSelection(ev.target.value)}>
+                                    <option value=''>-- select school --</option>
+                                    {
+                                        schools.map(school => {
+                                            return(
+                                                <option value={ school.id } key={ school.id }>
+                                                    { school.name }
+                                                </option>
+                                            )
+                                        })
+                                    }
+                                </select>
+                                <button disabled={ !studentName }>Create</button>
+                            </form>
+                            <hr />
+                        </div>
 
-            <div id='create'>
-                <div id='create-student'>
-                    <h3>Create Student</h3>
-                    <form onSubmit={ createStudent }>
-                        <input type='text' placeholder='Student name' value={ studentName } onChange={ ev => setStudentName(ev.target.value) }/>
-                        <select value={ schoolIdSelection } onChange={ev => setSchoolIdSelection(ev.target.value)}>
-                            <option value=''>-- select school --</option>
+                        <div id='create-school'>
+                            <h3>Create School</h3>
+                            <form onSubmit={ createSchool }>
+                                <input type='text' placeholder='School name' onChange={ ev => setSchoolName(ev.target.value) } value={ schoolName } />
+                                <button disabled={ !schoolName }>Create</button>
+                            </form>
+                            <hr />
+                        </div>
+                    </div>
+
+                )
+            }
+            {
+                !view && (
+
+                    <div id='list'>
+
+                        <div id='unenrolled'>
+                            <h3>Unenrolled Students</h3>
+                            <ul>
+                                {
+                                    students.filter(student => student.schoolId === null).map(student => {
+                                        return(
+                                            <li key={ student.id }>
+                                                <a href={`#view=student&id=${student.id}`}>
+                                                    { student.name }
+                                                </a>
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                        </div>
+
                             {
                                 schools.map(school => {
                                     return(
-                                        <option value={ school.id } key={ school.id }>
-                                            { school.name }
-                                        </option>
+                                        <div className='school' key={ school.id } value={ school.id }>
+                                            <a href={`#view=school&id=${school.id}`}>
+                                                <h3>{ school.name }</h3>
+                                            </a>
+                                            <select value={''} onChange={ moveStudentInit }>
+                                                <option value=''>-- select student --</option>
+                                                {
+                                                    students.filter(student => student.schoolId !== school.id).map(student => {
+                                                        return(
+                                                            <option value={ student.id } key={ student.id }>
+                                                                { student.name }
+                                                            </option>
+                                                        )
+                                                    })
+                                                }
+                                            </select>
+                                            <ul>
+                                                {
+                                                    students.filter(student => student.schoolId === school.id).map(student => {
+                                                        return(
+                                                            <li key={ student.id}>
+                                                                <a href={`#view=student&id=${student.id}&schoolId=${school.id}`}>
+                                                                    { student.name }
+                                                                </a>
+                                                                <button onClick={()=> unenrollStudent(student)}>Unenroll</button>
+                                                            </li>
+                                                        )
+                                                    })
+                                                }
+                                            </ul>
+                                        </div>
                                     )
                                 })
                             }
-                        </select>
-                        <button>Create</button>
-                    </form>
-                    <hr />
-                </div>
+                    </div>
+                )
+            }
 
-                <div id='create-school'>
-                    <h3>Create School</h3>
-                    <form onSubmit={ createSchool }>
-                        <input type='text' placeholder='School name' onChange={ ev => setSchoolName(ev.target.value) } value={ schoolName } />
-                        <button>Create</button>
-                    </form>
-                    <hr />
-                </div>
-            </div>
-
-            <div id='list'>
-                <div id='unenrolled'>
-                    <h3>Unenrolled Students</h3>
-                    <ul>
-                        {
-                            students.filter(student => student.schoolId === null).map(student => {
-                                return(
-                                    <li key={ student.id }>
-                                        <a href={`#view=student&id=${student.id}`}>
-                                            { student.name }
-                                        </a>
-                                    </li>
-                                )
-                            })
-                        }
-                    </ul>
-                </div>
-
-                <div id='enrolled'>
-                    {
-                        schools.map(school => {
-                            return(
-                                <div className='school' key={ school.id } value={ school.id }>
-                                    <a href={`#view=school&id=${school.id}`}>
-                                        <h3>{ school.name }</h3>
-                                    </a>
-                                    <select value={''} onChange={ moveStudentInit }>
-                                        <option value=''>-- select student --</option>
-                                        {
-                                            students.filter(student => student.schoolId !== school.id).map(student => {
-                                                return(
-                                                    <option value={ student.id } key={ student.id }>
-                                                        { student.name }
-                                                    </option>
-                                                )
-                                            })
-                                        }
-                                    </select>
-                                    <ul>
-                                        {
-                                            students.filter(student => student.schoolId === school.id).map(student => {
-                                                return(
-                                                    <li key={ student.id}>
-                                                        <a href={`#view=student&id=${student.id}&schoolId=${school.id}`}>
-                                                            { student.name }
-                                                        </a>
-                                                        <button onClick={()=> unenrollStudent(student)}>Unenroll</button>
-                                                    </li>
-                                                )
-                                            })
-                                        }
-                                    </ul>
-                                    <hr />
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-            </div>
 
             <div id='update'>
                 { view === 'school' && (
                     <div id='school-update'>
                         <form onSubmit={ updateSchool }>
                             <input type='text' placeholder='School name' value={ updateSchoolName } onChange={ ev => setUpdateSchoolName(ev.target.value)}/>
-                            <button>Update School</button>
+                            <button disabled={ !updateSchoolName }>Update School</button>
                         </form>
                         <button onClick={()=> destroySchool(id) }>Delete School</button>
                     </div>)
