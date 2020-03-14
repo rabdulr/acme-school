@@ -228,7 +228,8 @@ const App = () => {
                     setUpdateStudent={ setUpdateStudent } 
                     updateStudentName={ updateStudentName }
                     setUpdateStudentName={ setUpdateStudentName } 
-                    updateStudentSchool={ updateStudentSchool } setUpdateStudentSchool={ setUpdateStudentSchool } 
+                    updateStudentSchool={ updateStudentSchool } 
+                    setUpdateStudentSchool={ setUpdateStudentSchool } 
                     destroyStudent={ destroyStudent }
                     updateStudentInfo={ updateStudentInfo }
                     view={ view } 
