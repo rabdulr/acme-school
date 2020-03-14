@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import qs from 'qs';
+import Create from './Create'
 
 const App = () => {
     const [ schools, setSchools ] = useState([]);
@@ -221,40 +222,8 @@ const App = () => {
             }
             <hr />
             {
-                !view && (
-                    <div id='create'>
-                        <div id='create-student'>
-                            <h3>Create Student</h3>
-                            <form onSubmit={ createStudent }>
-                                <input type='text' placeholder='Student name' value={ studentName } onChange={ ev => setStudentName(ev.target.value) }/>
-                                <select value={ schoolIdSelection } onChange={ev => setSchoolIdSelection(ev.target.value)}>
-                                    <option value=''>-- select school --</option>
-                                    {
-                                        schools.map(school => {
-                                            return(
-                                                <option value={ school.id } key={ school.id }>
-                                                    { school.name }
-                                                </option>
-                                            )
-                                        })
-                                    }
-                                </select>
-                                <button disabled={ !studentName }>Create</button>
-                            </form>
-                            <hr />
-                        </div>
-
-                        <div id='create-school'>
-                            <h3>Create School</h3>
-                            <form onSubmit={ createSchool }>
-                                <input type='text' placeholder='School name' onChange={ ev => setSchoolName(ev.target.value) } value={ schoolName } />
-                                <button disabled={ !schoolName }>Create</button>
-                            </form>
-                            <hr />
-                        </div>
-                    </div>
-
-                )
+                !view && 
+                <Create schools={ schools } schoolName={ schoolName } setSchoolName={ setSchoolName } schoolIdSelection={ schoolIdSelection } setSchoolIdSelection={ setSchoolIdSelection } studentName={ studentName } setStudentName={ setStudentName } createStudent={ createStudent } createSchool={ createSchool }/>
             }
             {
                 !view && (

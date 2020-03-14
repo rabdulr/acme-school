@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Create = ({ schools, schoolName, setSchoolName, schoolIdSelection, setSchoolIdSelection, studentName, setStudentName}) => {
-    const [ schools, setSchools ] = useState([]);
-    const [ schoolName, setSchoolName ] = useState('');
-    const [ schoolIdSelection, setSchoolIdSelection ] = useState('');
-    const [ studentName, setStudentName ] = useState('');
+const Create = ({ schools, schoolName, setSchoolName, schoolIdSelection, setSchoolIdSelection, studentName, setStudentName, createStudent, createSchool}) => {
 
     return(
         <div id='create'>
