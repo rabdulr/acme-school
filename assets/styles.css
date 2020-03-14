@@ -74,4 +74,9 @@ li > button {
     flex-direction: column;
 }
 
+div > button {
+    font-size: medium;
+    color: red
+}
+
 
