@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 const Create = ({ schools, schoolName, setSchoolName, schoolIdSelection, setSchoolIdSelection, studentName, setStudentName, createStudent, createSchool}) => {
 
