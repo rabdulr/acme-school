@@ -94,12 +94,14 @@ const App = () => {
         ev.preventDefault();
         try {
             const updatedSchool = (await axios.put(`/api/schools/${id}`, { updateSchoolName, id })).data;
-            schools.map(school => {
+            const updatedSchoolList = schools.map(school => {
                 if(school.id === updatedSchool.id){
-                    school.name = updatedSchool.name;
+                    return updatedSchool;
+                } else {
+                    return school;
                 }
             });
-            setSchools([...schools]);
+            setSchools([...updatedSchoolList]);
             setUpdateSchoolName('');
             setError('');
             window.location.hash='#';
@@ -115,14 +117,14 @@ const App = () => {
             updateStudent.name = updateStudentName
             updateStudent.schoolId = updateStudentSchool
             const updatedStudent = (await axios.put(`/api/students/${id}`, updateStudent)).data;
-            students.map(student => {
+            const updatedStudentList = students.map(student => {
                 if(student.id === updatedStudent.id){
                     return updatedStudent;
                 } else {
                     return student;
                 }
             });
-            setStudents([...students]);
+            setStudents([...updatedStudentList]);
             setUpdateStudentName('');
             setUpdateStudentSchool('');
             setUpdateStudent({});
@@ -141,14 +143,14 @@ const App = () => {
             updateStudent.name = students.find(student => student.id === updateStudent.id).name
 
             const updatedStudent = (await axios.put(`/api/students/${updateStudent.id}`, updateStudent)).data;
-            const studentList = students.map(student => {
+            const updatedStudentList = students.map(student => {
                 if(student.id === updatedStudent.id){
                     return updatedStudent;
                 } else {
                     return student;
                 }
             });
-            setStudents([...studentList]);
+            setStudents([...updatedStudentList]);
             setSchools([...schools])
             setUpdateStudent({});
             setError('');
@@ -175,7 +177,7 @@ const App = () => {
         try {
             await axios.delete(`/api/schools/${schoolToDestroyId}`)
             setSchools(schools.filter( school => school.id !== schoolToDestroyId))
-            const updatedList = students.map( student => {
+            const updatedStudentList = students.map( student => {
                 if(student.schoolId === schoolToDestroyId){
                     student.schoolId = null;
                     return student;
@@ -183,7 +185,7 @@ const App = () => {
                     return student;
                 }
             })
-            setStudents([...updatedList])
+            setStudents([...updatedStudentList])
             setError('');
             window.location.hash='#';
         }
@@ -197,8 +199,8 @@ const App = () => {
             <a href='#'>
                 <h1>Acme School</h1>
             </a>
-            <h4>{ schools.length } Schools</h4>
-            <h4>{ students.length } Students ({ students.filter(student => student.schoolId !== null).length } enrolled)</h4>
+            <h4>{ schools.length } School{ schools.length === 1 ? '' : 's'}</h4>
+            <h4>{ students.length } Student{ students.length === 1 ? '': 's'} ({ students.filter(student => student.schoolId !== null).length } enrolled)</h4>
             {
                 error
             }
