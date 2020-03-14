@@ -20,8 +20,6 @@ form > * {
     margin: .25rem;
 }
 
-
-
 ul {
     list-style-type: none;
     padding-left: 0;
@@ -32,6 +30,10 @@ ul {
     justify-content: space-evenly;
     flex-direction: row;
     flex: 1;
+}
+
+li > button {
+    margin-left: 1rem;
 }
 
 #create > div {

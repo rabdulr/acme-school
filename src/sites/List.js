@@ -20,7 +20,6 @@ const List = ({ schools, students, moveStudentInit, unenrollStudent }) => {
                     }
                 </ul>
             </div>
-
                 {
                     schools.map(school => {
                         return(
