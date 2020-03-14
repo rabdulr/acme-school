@@ -254,7 +254,6 @@ const App = () => {
                             })
                         }
                     </ul>
-                    <hr />
                 </div>
 
                 <div id='enrolled'>

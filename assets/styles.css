@@ -1,3 +1,60 @@
 body {
     margin: 2rem;
 }
+
+#enrolled {
+    display: flex;
+}
+
+.school > *, #unenrolled {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#create {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    flex: 1;
+}
+
+#create > div {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+}
+
+.school{
+    padding: 1rem;
+}
+
+#create > *, .school, #unenrolled, #update > * {
+    border: 1px solid black;
+    padding: .5rem;
+    margin: 1rem;
+    width: 35%;
+}
+
+#list {
+    display: flex;
+    flex: 1;
+    justify-content: space-evenly;
+}
+
+#enrolled > * {
+    display: flex;
+    flex-direction: column;
+}
+
+#update {
+    display: flex;
+}

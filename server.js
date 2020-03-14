@@ -49,7 +49,6 @@ app.delete('/api/students/:id', (req, res, next)=> {
 });
 
 app.put('/api/schools/:id', (req, res, next)=> {
-    console.log(req.body)
     db.updateSchool(req.body)
         .then( school => res.send(school))
         .catch(next)
