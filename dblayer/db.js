@@ -1,7 +1,4 @@
-const { Client } = require('pg');
-const client = new Client(process.env.DATABASE_URL || 'postgres://localhost/acme_school');
-
-client.connect();
+const { client } = require('./client')
 
 const sync = async() => {
     const SQL = `
@@ -39,49 +36,8 @@ const sync = async() => {
 
 };
 
-const readSchools = async() => {
-    return (await client.query('SELECT * FROM schools')).rows;
-};
-
-const readStudents = async() => {
-    return (await client.query('SELECT * FROM students')).rows;
-};
-
-const createSchool = async({ schoolName }) => {
-    return (await client.query('INSERT INTO schools(name) VALUES($1) RETURNING *', [ schoolName ])).rows[0];
-};
-
-const createStudent = async({ studentName, schoolIdSelection }) => {
-    const id = schoolIdSelection ? schoolIdSelection : null;
-    return (await client.query('INSERT INTO students(name, "schoolId") VALUES($1, $2) RETURNING *', [ studentName, id ])).rows[0];
-};
-
-const destroySchool = async(id) => {
-    await client.query('DELETE FROM schools WHERE id=$1', [id])
-};
-
-const destroyStudent = async(id) => {
-    await client.query('DELETE FROM students WHERE id=$1', [id])
-};
-
-const updateSchool = async({ updateSchoolName, id }) => {
-    const SQL = 'UPDATE schools SET name=$1 WHERE id=$2 RETURNING *';
-    return ( await client.query(SQL, [updateSchoolName, id])).rows[0];
-};
-
-const updateStudent = async(student) => {
-    const SQL = 'UPDATE students SET name=$1, "schoolId"=$2 WHERE id=$3 RETURNING *';
-    return ( await client.query(SQL, [student.name, student.schoolId, student.id])).rows[0];
-};
-
-module.exports = {
-    sync,
-    createSchool,
-    createStudent,
-    readSchools,
-    readStudents,
-    destroySchool,
-    destroyStudent,
-    updateSchool,
-    updateStudent,
-}
+sync()
+    .then(()=> {
+        console.log('Tables created!')
+    })
+    .catch(console.error);

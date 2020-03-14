@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const db = require('./dblayer/db');
+const db = require('./dblayer/index');
 
 app.use(express.json());
 
@@ -66,9 +66,6 @@ app.use((err, req, res, next)=> {
 
 const port = process.env.PORT || 3000;
 
-db.sync()
-    .then(() => {
-        app.listen(port, () => {
-            console.log(`Listening on port ${ port }`)
-        });
-    });
+app.listen(port, ()=> {
+    console.log(`Listening on port: ${port}`)
+})
